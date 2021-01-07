@@ -1,28 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppHeader from './components/AppHeader';
+import SearchPanel from './components/SearchPanel';
+import ToDoList from './components/ToDoList';
 
-const ToDoList = () => {
-  return (
-    <ul>
-      <li>First Item</li>
-      <li>Second Item</li>
-    </ul>
-  );
-};
 
-const AppHeader = () => {
-  return (
-    <h1>My First ToDoItem Project </h1>
-  );
-};
 
-const SearchPanel = () => {
-  return (
-    <input placeholder="search" />
-  );
-};
+
 
 const App = () => {
+
   return (
     <div>
       <AppHeader />
@@ -32,4 +19,4 @@ const App = () => {
   );
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
