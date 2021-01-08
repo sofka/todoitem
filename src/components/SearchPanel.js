@@ -1,9 +1,9 @@
 import React from 'react';
+import '../style/search-panel.css';
 
 const SearchPanel = () => {
-    const searchText = 'input here text for find';
     return (
-      <input placeholder={searchText} />
+      <input className="search-panel" type="text" placeholder="input text for search" />
     );
   };
 
