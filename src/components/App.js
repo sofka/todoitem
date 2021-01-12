@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AddNewItemPanel from './AddNewItemPanel';
+import ItemAddForm from './ItemAddForm';
 import AppHeader from './AppHeader';
 import ItemStatusFilter from './ItemStatusFilter';
 import SearchPanel from './SearchPanel';
@@ -32,6 +32,22 @@ export default class App extends Component {
       }
     });
   }
+  addNewItem = () => {
+    this.setState(({ data }) => {
+      const findMaxIndex = Math.max(...data.map((el) => { return el.id }));
+      const newIndex = findMaxIndex + 1;
+      const newItem = {
+        label: `New Item Number ${newIndex}`,
+        important: newIndex % 2,
+        id: newIndex
+      };
+      const newData = [...data, newItem];
+      return {
+        data: newData
+      }
+    });
+
+  }
   render() {
     return (
       <div className="todo-app">
@@ -42,7 +58,7 @@ export default class App extends Component {
         </div>
         <ToDoList todos={this.state.data}
           onDeleted={this.deleteItem} />
-        <AddNewItemPanel />
+        <ItemAddForm addNewItem={this.addNewItem} />
       </div>
     );
   }
