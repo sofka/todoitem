@@ -45,7 +45,7 @@ export default class App extends Component {
   }
   addNewItem = (text) => {
     this.setState(({ data }) => {
-      const newItem = this.createItem('Hello world');
+      const newItem = this.createItem(text);
       const newData = [...data, newItem];
       return {
         data: newData
