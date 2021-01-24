@@ -83,6 +83,17 @@ export default class App extends Component {
     return newArr;
   };
 
+  searchItems = (text) => {
+    this.setState(({ data }) => {
+      const findByText = data.filter((el) => {
+        return el.label.indexOf(text) !== -1;
+      });
+      return {
+        data: findByText
+      }
+    });
+  }
+
   render() {
 
     const { data } = this.state;
@@ -92,7 +103,7 @@ export default class App extends Component {
       <div className="todo-app">
         <AppHeader todo={todoCont} done={doneCount} />
         <div className="top-panel d-flex">
-          <SearchPanel />
+          <SearchPanel searchItems={this.searchItems} />
           <ItemStatusFilter />
         </div>
         <ToDoList todos={this.state.data}
