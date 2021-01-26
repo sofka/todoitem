@@ -8,9 +8,14 @@ const ToDoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
 
     // {} деструктуризация
     // ... spreed оператор
-    const { id, ...itemProps } = item;
+    const { id, hide, ...itemProps } = item;
+    let classNames = 'list-group-item';
+    if (hide) {
+      classNames += ' hide';
+    }
+
     return (
-      <li key={id} className="list-group-item">
+      <li key={id} className={classNames}>
         <ToDoListItem {...itemProps}
           onDeleted={() => onDeleted(id)}
           onToggleImportant={() => onToggleImportant(id)}

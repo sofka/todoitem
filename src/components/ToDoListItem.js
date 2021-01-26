@@ -5,10 +5,10 @@ import '../style/todo-list-item.css';
 export default class ToDoListItem extends Component {
 
     render() {
-        const { label, onDeleted, 
+        const { label, onDeleted,
             onToggleImportant, onToggleDone,
             done, important } = this.props;
-        
+
         const style = {
             color: important ? 'tomato' : 'black',
         };
@@ -21,6 +21,7 @@ export default class ToDoListItem extends Component {
         if (important) {
             classNames += ' important';
         }
+
         return (
             <span className={classNames}>
                 <span className="todo-list-item-label"

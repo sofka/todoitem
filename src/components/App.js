@@ -22,6 +22,7 @@ export default class App extends Component {
       label: label,
       important: false,
       done: false,
+      hide: false
     };
     return newItem;
   }
@@ -85,11 +86,12 @@ export default class App extends Component {
 
   searchItems = (text) => {
     this.setState(({ data }) => {
-      const findByText = data.filter((el) => {
-        return el.label.indexOf(text) !== -1;
+      const searchArr = data.map((el) => {
+        const newItem = { ...el, hide: el.label.toLowerCase().indexOf(text.toLowerCase()) === -1 }
+        return newItem;
       });
       return {
-        data: findByText
+        data: searchArr
       }
     });
   }
