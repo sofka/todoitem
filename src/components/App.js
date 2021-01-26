@@ -16,6 +16,7 @@ export default class App extends Component {
     ]
   }
 
+  // Создать новый пункт с заданным название
   createItem(label) {
     const newItem = {
       id: this.maxId++,
@@ -26,6 +27,8 @@ export default class App extends Component {
     };
     return newItem;
   }
+
+  // Удалить пункт по идентификатору из списка
   deleteItem = (id) => {
 
     this.setState(({ data }) => {
@@ -44,6 +47,8 @@ export default class App extends Component {
       }
     });
   }
+
+  // Добавить новый пункт в список
   addNewItem = (text) => {
     this.setState(({ data }) => {
       const newItem = this.createItem(text);
@@ -55,6 +60,7 @@ export default class App extends Component {
 
   }
 
+  // Пометить пункт, как важный
   onToggleImportant = (id) => {
     this.setState(({ data }) => {
       const newArr = this.toogleProperty(data, id, 'important');
@@ -64,6 +70,7 @@ export default class App extends Component {
     });
   }
 
+  // Пометить пункт, как выделенный
   onToggleDone = (id) => {
     this.setState(({ data }) => {
       const newArr = this.toogleProperty(data, id, 'done');
@@ -73,7 +80,8 @@ export default class App extends Component {
     });
   }
 
-
+  // Установить противоположное свойство пункта
+  // Если был важный, сделать неважным и т.д.
   toogleProperty(arr, id, propName) {
     const idx = arr.findIndex((el) => el.id === id);
     const oldItem = arr[idx];
@@ -84,16 +92,46 @@ export default class App extends Component {
     return newArr;
   };
 
-  searchItems = (text) => {
+  hideItems = ({ text, hide, done }) => {
     this.setState(({ data }) => {
       const searchArr = data.map((el) => {
-        const newItem = { ...el, hide: el.label.toLowerCase().indexOf(text.toLowerCase()) === -1 }
+        let isHide = el.hide;
+        if (text) {
+          isHide = text ? el.label.toLowerCase().indexOf(text.toLowerCase()) === -1 : isHide;
+        }
+        if (hide !== undefined) {
+          isHide = isHide && hide;
+        }
+        if (done !== undefined) {
+          isHide = el.done !== done;
+        }
+        const newItem = { ...el, hide: isHide }
         return newItem;
       });
       return {
         data: searchArr
       }
     });
+  }
+  // Поиск пунктов, соответствующих строке поиска
+  // Те, которые не соответствуют прячутся, меняется свойство hide
+  searchItems = (text) => {
+    this.hideItems({ text });
+  }
+
+  filterItems = ({ isAll = false, isActive = false, isDone = false }) => {
+    switch (true) {
+      case isAll:
+        this.hideItems({ hide: !isAll });
+        break;
+      case isActive:
+        this.hideItems({ hide: false, done: !isActive });
+        break;
+      case isDone:
+        this.hideItems({ hide: false, done: isDone });
+        break;
+
+    }
   }
 
   render() {
@@ -106,7 +144,7 @@ export default class App extends Component {
         <AppHeader todo={todoCont} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel searchItems={this.searchItems} />
-          <ItemStatusFilter />
+          <ItemStatusFilter filterItems={this.filterItems} />
         </div>
         <ToDoList todos={this.state.data}
           onDeleted={this.deleteItem}
