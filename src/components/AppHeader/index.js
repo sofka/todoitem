@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/app-header.css'
+import './app-header.css'
 
 const AppHeader = ({ todo = 1, done = 3 }) => {
   return (

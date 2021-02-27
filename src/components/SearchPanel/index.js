@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../style/search-panel.css';
+import './search-panel.css';
 
 export default class SearchPanel extends Component {
   state = {
@@ -9,15 +9,19 @@ export default class SearchPanel extends Component {
   onChangeSearchText = (e) => {
     const searchText = e.target.value;
     this.setState({
-      searchText: searchText
+      searchText
     });
     this.props.searchItems(searchText);
   }
   render() {
 
     return (
-      <input className="search-panel" type="text" placeholder="input text for search"
-        onChange={this.onChangeSearchText} value={this.state.searchText} />
+      <input className="search-panel"
+        type="text"
+        placeholder="input text for search"
+        onChange={this.onChangeSearchText}
+        value={this.state.searchText}
+      />
     );
   }
 };

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React, { Component } from 'react';
-import '../style/item-add-form.css';
+import './item-add-form.css';
 
 export default class ItemAddForm extends Component {
     state = {

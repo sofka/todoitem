@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../style/todo-list-item.css';
+import './todo-list-item.css';
 
 
 export default class ToDoListItem extends Component {
