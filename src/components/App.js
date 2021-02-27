@@ -130,7 +130,9 @@ export default class App extends Component {
       case isDone:
         this.hideItems({ hide: false, done: isDone });
         break;
-
+      default:
+        this.hideItems({ hide: !isAll });
+        break;
     }
   }
 
