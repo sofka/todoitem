@@ -4,7 +4,7 @@ import './todo-list.css';
 
 const ToDoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
 
-  const elements = todos.map((item) => {
+  const elements = todos?.map((item) => {
 
     // {} деструктуризация
     // ... spreed оператор
