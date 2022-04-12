@@ -18,7 +18,7 @@ export default class SearchPanel extends Component {
     return (
       <input className="search-panel"
         type="text"
-        placeholder="input text for search"
+        placeholder="Найти"
         onChange={this.onChangeSearchText}
         value={this.state.searchText}
       />

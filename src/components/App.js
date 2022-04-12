@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ItemAddForm from './ItemAddForm';
 import AppHeader from './AppHeader';
 import ItemStatusFilter from './ItemStatusFilter';
@@ -6,15 +6,29 @@ import SearchPanel from './SearchPanel';
 import ToDoList from './ToDoList';
 import '../style/index.css';
 
-const App = ({ maxId=100, items }) => {
+const getExistMaxId = () => {
+  var items = JSON.parse(localStorage.getItem('todoitems')) || [];
+
+  const max = items && items.length ? Math.max.apply(null, items.map((val) => {
+    return val.id
+  })) : 0;
+  return max;
+};
+
+const App = () => {
+
 
   const [todoCount, setTodoCount] = useState(0);
   const [doneCount, setDoneCount] = useState(0);
-  const [data, setData] = useState(items || []);
+  const [data, setData] = useState(JSON.parse(localStorage.getItem('todoitems')) || []);
+  let [maxId, setMax] = useState(getExistMaxId());
+  const appRef = useRef(null);
 
- 
+
   // Создать новый пункт с заданным название
   const createItem = (label) => {
+    
+
     const newItem = {
       id: maxId++,
       label: label,
@@ -22,6 +36,7 @@ const App = ({ maxId=100, items }) => {
       done: false,
       hide: false
     };
+    setMax(maxId++);
     return newItem;
   };
 
@@ -62,9 +77,11 @@ const App = ({ maxId=100, items }) => {
   useEffect(() => {
     const filter = data.filter((item) => {
       return item['done'];
-    })??[];
+    }) ?? [];
     ;
     setDoneCount(filter.length);
+    setTodoCount(data?.length)
+    localStorage.setItem('todoitems', JSON.stringify(data));
   }, [data]);
 
 
@@ -121,10 +138,22 @@ const App = ({ maxId=100, items }) => {
         break;
     }
   }
+
+  const onChangeTheme = (isSun)=>{
+    const html = appRef.current?.parentNode.parentNode.parentNode;
+    const themeClass = 'black';
+
+    if(isSun){
+      html.classList.remove(themeClass);
+    }else{
+      html.classList.add(themeClass);
+    }
+  }
+
   return (
 
-    <div className="todo-app">
-      <AppHeader todo={todoCount} done={doneCount} />
+    <div className="todo-app" ref={appRef}>
+      <AppHeader todo={todoCount} done={doneCount}  onChangeTheme={onChangeTheme}/>
       <div className="top-panel d-flex">
         <SearchPanel searchItems={searchItems} />
         <ItemStatusFilter filterItems={filterItems} />
